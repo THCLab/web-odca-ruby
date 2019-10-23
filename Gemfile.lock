@@ -1,0 +1,19 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    base58 (0.2.3)
+    odca (0.1.0)
+      base58 (~> 0.2)
+    rack (2.0.7)
+    roda (3.25.0)
+      rack
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  odca
+  roda
+
+BUNDLED WITH
+   1.16.2
