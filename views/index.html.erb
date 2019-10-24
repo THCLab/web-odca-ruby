@@ -11,12 +11,19 @@
     <script>
       document.querySelector("#chooseFile")
         .addEventListener("change", (e) => {
+
           const xhr = new XMLHttpRequest();
           const fd = new FormData();
           const file = e.target.files[0];
+          fd.append('file', file);
 
           xhr.open('POST', '/', true);
-          fd.append('file', file);
+          xhr.onload = () => {
+            if (xhr.status === 200) {
+              window.history.pushState("", "", xhr.responseURL);
+              window.location.replace(xhr.responseURL);
+            }
+          };
           xhr.send(fd);
         });
     </script>
