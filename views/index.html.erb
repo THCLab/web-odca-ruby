@@ -28,7 +28,24 @@
       }
 
     </style>
-        <script>
+
+  </head>
+  <body>
+    <h1> Overlay Data Capture Architecture Converter </h1>
+    <hr/>
+    <div class="column">
+      <h2> Try it! </h2>
+      <p> Tool allow you to convert properly prepared <a href="https://github.com/THCLab/odca-ruby#how-to-build-input-for-parser">csv file</a> to ODCA. As an outcome you would receive a zip file which would include all schema base objects and overlays within JSON-LD format</p>
+      <label> Select a file: </label> <input type="file" id="chooseFile" accept=".csv" />
+      </div>
+      <div class="column">
+          <h2>  Learn more </h2>
+          <p> Official website: <a href="https://odca.online/">https://odca.online</a> </p>
+          <p> Examples: <a href="3cba855017c27ac0fa6cd23cc5dcd91f.zip">TPRM</a></p>
+          <p> <a href="https://github.com/THCLab/odca-ruby/tree/master/examples"> More examples </a>
+      </div>
+
+      <script>
       document.querySelector("#chooseFile")
         .addEventListener("change", (e) => {
 
@@ -47,20 +64,5 @@
           xhr.send(fd);
         });
     </script>
-  </head>
-  <body>
-    <h1> Overlay Data Capture Architecture Converter </h1>
-    <hr/>
-    <div class="column">
-      <h2> Try it! </h2>
-      <p> Tool allow you to convert properly prepared <a href="https://github.com/THCLab/odca-ruby#how-to-build-input-for-parser">csv file</a> to ODCA. As an outcome you would receive a zip file which would include all schema base objects and overlays within JSON-LD format</p>
-      <label> Select a file: </label> <input type="file" id="chooseFile" accept=".csv" />
-      </div>
-      <div class="column">
-          <h2>  Learn more </h2>
-          <p> Official website: <a href="https://odca.online/">https://odca.online</a> </p>
-          <p> Examples: <a href="3cba855017c27ac0fa6cd23cc5dcd91f.zip">TPRM</a></p>
-          <p> <a href="https://github.com/THCLab/odca-ruby/tree/master/examples"> More examples </a>
-      </div>
   </body>
 </html>
