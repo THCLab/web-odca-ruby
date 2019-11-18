@@ -2,7 +2,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     base58 (0.2.3)
-    odca (0.1.1)
+    odca (0.2.2)
       base58 (~> 0.2)
     rack (2.0.7)
     roda (3.25.0)
@@ -14,10 +14,10 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  odca
+  odca (~> 0.2.2)
   roda
   rubyzip (>= 1.3.0)
   tilt
 
 BUNDLED WITH
-   1.16.6
+   2.1.4
