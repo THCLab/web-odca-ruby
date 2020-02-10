@@ -57,8 +57,9 @@
           xhr.open('POST', '/', true);
           xhr.onload = () => {
             if (xhr.status === 200) {
-              window.history.pushState("", "", xhr.responseURL);
-              window.location.replace(xhr.responseURL);
+              const fileUrl = xhr.responseURL + xhr.responseText
+              window.history.pushState("", "", fileUrl);
+              window.location.replace(fileUrl);
             }
           };
           xhr.send(fd);

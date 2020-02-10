@@ -1,9 +1,11 @@
 require 'roda'
 require 'services/input_file_service'
+require 'plugins/cors'
 
 class Web < Roda
   plugin :render
   plugin :public
+  plugin :cors
 
   route do |r|
     r.public
@@ -16,7 +18,7 @@ class Web < Roda
       file = r.params['file'][:tempfile]
       zip_filename = Services::InputFileService.new.call(file)
 
-      r.redirect(zip_filename)
+      zip_filename
     end
   end
 end
