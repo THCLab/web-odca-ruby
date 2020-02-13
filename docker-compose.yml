@@ -1,0 +1,9 @@
+version: '3'
+services:
+  web_odca_ruby:
+    image: thehumancolossuslab/web-odca-ruby
+    build: ./
+    volumes:
+      - ./public:/usr/src/app/public
+    ports:
+      - 9292:9292
