@@ -2,11 +2,17 @@ GEM
   remote: https://rubygems.org/
   specs:
     base58 (0.2.3)
+    mini_portile2 (2.4.0)
+    nokogiri (1.10.9)
+      mini_portile2 (~> 2.4.0)
     odca (0.2.2)
       base58 (~> 0.2)
     rack (2.0.8)
     roda (3.25.0)
       rack
+    roo (2.8.3)
+      nokogiri (~> 1)
+      rubyzip (>= 1.3.0, < 3.0.0)
     rubyzip (2.0.0)
     tilt (2.0.10)
 
@@ -16,6 +22,7 @@ PLATFORMS
 DEPENDENCIES
   odca (~> 0.2.2)
   roda
+  roo (~> 2.8.0)
   rubyzip (>= 1.3.0)
   tilt
 
