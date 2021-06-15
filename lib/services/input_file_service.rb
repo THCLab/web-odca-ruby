@@ -25,7 +25,7 @@ module Services
     private def parse_file(file)
       file_ext = File.extname(file.path)
       if file_ext == '.csv'
-        CSV.read(file, col_sep: ';')
+        CSV.read(file, col_sep: ';', encoding: 'ISO8859-1:utf-8')
       elsif file_ext == '.xlsx'
         xlsx = Roo::Excelx.new(file)
         CSV.parse(xlsx.to_csv, col_sep: ',')
