@@ -1,12 +1,18 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    base58 (0.2.3)
+    hashlink (0.0.2)
+      multibases (~> 0.3.2)
+      multihashes (~> 0.2)
     mini_portile2 (2.4.0)
+    multibases (0.3.2)
+    multicodecs (0.2.1)
+    multihashes (0.2.0)
+      multicodecs (>= 0.2.0, < 1)
     nokogiri (1.10.9)
       mini_portile2 (~> 2.4.0)
-    odca (0.2.2)
-      base58 (~> 0.2)
+    odca (0.2.3)
+      hashlink (~> 0.0.1)
     rack (2.0.8)
     roda (3.25.0)
       rack
@@ -27,7 +33,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  odca (~> 0.2.2)
+  odca (~> 0.2.3)
   roda
   roo (~> 2.8.0)
   roo-xls (~> 1.2)
@@ -35,4 +41,4 @@ DEPENDENCIES
   tilt
 
 BUNDLED WITH
-   2.1.4
+   2.2.4
