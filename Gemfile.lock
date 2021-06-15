@@ -13,7 +13,7 @@ GEM
       mini_portile2 (~> 2.4.0)
     odca (0.2.3)
       hashlink (~> 0.0.1)
-    rack (2.0.8)
+    rack (2.2.3)
     roda (3.25.0)
       rack
     roo (2.8.3)
