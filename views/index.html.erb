@@ -17,6 +17,13 @@
       a {
         color: #ffd54d;
       }
+      input, label {
+        display: block;
+      }
+
+      input {
+        margin-bottom: 10px;
+      }
 
       @media (min-width: 768px) {
         body{ margin: 50px; }
@@ -36,7 +43,13 @@
     <div class="column">
       <h2> Try it! </h2>
       <p> Tool allow you to convert properly prepared <a href="https://github.com/THCLab/odca-ruby#how-to-build-input-for-parser">csv file</a> to ODCA. As an outcome you would receive a zip file which would include all schema base objects and overlays within JSON-LD format</p>
-      <label> Select a file: </label> <input type="file" id="chooseFile" accept=".csv,.xls,.xlsx" />
+      <label>Select OCA file *</label>
+      <input type="file" id="chooseFile" accept=".xls,.xlsx" />
+      <label>Select Credential Layout file</label>
+      <input type="file" id="chooseCredentialLayoutFile" accept=".yml,.yaml" />
+      <label>Select Form Layout file</label>
+      <input type="file" id="chooseFormLayoutFile" accept=".yml,.yaml" />
+      <input type="submit" id="submit" />
       </div>
       <div class="column">
           <h2>  Learn more </h2>
@@ -46,23 +59,40 @@
       </div>
 
       <script>
+      const fd = new FormData();
       document.querySelector("#chooseFile")
         .addEventListener("change", (e) => {
-
-          const xhr = new XMLHttpRequest();
-          const fd = new FormData();
           const file = e.target.files[0];
           fd.append('file', file);
+        });
+      document.querySelector("#chooseCredentialLayoutFile")
+        .addEventListener("change", (e) => {
+          const file = e.target.files[0];
+          fd.append('credentialLayoutFile', file);
+        });
+      document.querySelector("#chooseFormLayoutFile")
+        .addEventListener("change", (e) => {
+          const file = e.target.files[0];
+          fd.append('formLayoutFile', file);
+        });
 
-          xhr.open('POST', '/', true);
-          xhr.onload = () => {
-            if (xhr.status === 200) {
-              const fileUrl = xhr.responseURL + xhr.responseText
-              window.history.pushState("", "", fileUrl);
-              window.location.replace(fileUrl);
-            }
-          };
-          xhr.send(fd);
+      document.querySelector("#submit")
+        .addEventListener("click", (_e) => {
+          if (!fd.has('file')) {
+            alert('OCA file is required!');
+          } else {
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '/', true);
+            xhr.onload = () => {
+              if (xhr.status === 200) {
+                const fileUrl = xhr.responseURL + xhr.responseText
+                window.history.pushState("", "", fileUrl);
+                window.location.replace(fileUrl);
+              }
+            };
+
+            xhr.send(fd);
+          }
         });
     </script>
   </body>

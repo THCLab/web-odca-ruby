@@ -11,6 +11,9 @@ RUN gem install bundler && bundle install
 
 COPY . .
 
+RUN wget https://github.com/THCLab/oca-rust/releases/latest/download/parser.bin
+RUN chmod +x ./parser.bin
+
 EXPOSE 9292
 
 CMD bundle exec rackup -o 0.0.0.0

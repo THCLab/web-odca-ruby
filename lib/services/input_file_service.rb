@@ -9,17 +9,20 @@ require 'zip_file_generator'
 
 module Services
   class InputFileService
-    def call(file)
-      records = parse_file(file)
+    def call(filename, filetype, file, credential_layout_file, form_layout_file)
+      `mv #{file.path} /tmp/#{filename}.#{filetype}`
+      cmd = "./parser.bin parse oca -p /tmp/#{filename}.#{filetype} --zip"
+      if !credential_layout_file.nil?
+        cmd += " --credential-layout #{credential_layout_file.path}"
+      end
+      if !form_layout_file.nil?
+        cmd += " --form-layout #{form_layout_file.path}"
+      end
+      `#{cmd}`
       uuid = SecureRandom.hex(16)
-      odca_dir = File.join(Dir.tmpdir, uuid)
-      Odca::Parser.new(records, odca_dir).call
+      `mv ./#{filename}.zip ./public/#{uuid}.zip`
 
-      output_filename = uuid + '.zip'
-      output_file = File.join('public', output_filename)
-      ZipFileGenerator.new(odca_dir, output_file).write
-
-      output_filename
+      "#{uuid}.zip"
     end
 
     private def parse_file(file)
