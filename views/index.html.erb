@@ -38,13 +38,15 @@
 
   </head>
   <body>
-    <h1> Overlay Capture Architecture Converter </h1>
+    <h1> Overlays Capture Architecture Converter </h1>
     <hr/>
     <div class="column">
       <h2> Try it! </h2>
       <p> Tool allow you to convert properly prepared xls(x) file to OCA. As an outcome you would receive a zip file which would include capture base object and all overlays within JSON format</p>
-      <label>Select OCA file *</label>
+      <label>Select OCA root file *</label>
       <input type="file" id="chooseFile" accept=".xls,.xlsx" />
+      <label>Select OCA references files</label>
+      <input type="file" id="chooseReferencesFiles" accept=".xls,.xlsx" multiple />
       <label>Select Credential Layout file</label>
       <input type="file" id="chooseCredentialLayoutFile" accept=".yml,.yaml" />
       <label>Select Form Layout file</label>
@@ -63,6 +65,14 @@
         .addEventListener("change", (e) => {
           const file = e.target.files[0];
           fd.append('file', file);
+        });
+      document.querySelector("#chooseReferencesFiles")
+        .addEventListener("change", (e) => {
+          const files = e.target.files;
+          for (let i = 0; i < files.length; i++) {
+            const file = files[i]
+            fd.append('referencesFiles[]', file);
+          }
         });
       document.querySelector("#chooseCredentialLayoutFile")
         .addEventListener("change", (e) => {

@@ -9,9 +9,13 @@ require 'zip_file_generator'
 
 module Services
   class InputFileService
-    def call(filename, filetype, file, credential_layout_file, form_layout_file)
-      `mv #{file.path} /tmp/#{filename}.#{filetype}`
-      cmd = "./parser.bin parse oca -p /tmp/#{filename}.#{filetype} --zip"
+    def call(files, credential_layout_file, form_layout_file)
+      `mv #{files[:root][:file].path} /tmp/#{files[:root][:name]}.#{files[:root][:type]}`
+      cmd = "./parser.bin parse oca -p /tmp/#{files[:root][:name]}.#{files[:root][:type]} --zip"
+      files[:references].each do |reference|
+        `mv #{reference[:file].path} /tmp/#{reference[:name]}.#{reference[:type]}`
+        cmd += " -p /tmp/#{reference[:name]}.#{reference[:type]}"
+      end
       if !credential_layout_file.nil?
         cmd += " --credential-layout #{credential_layout_file.path}"
       end
@@ -20,7 +24,7 @@ module Services
       end
       `#{cmd}`
       uuid = SecureRandom.hex(16)
-      `mv ./#{filename}.zip ./public/#{uuid}.zip`
+      `mv ./#{files[:root][:name]}.zip ./public/#{uuid}.zip`
 
       "#{uuid}.zip"
     end

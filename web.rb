@@ -15,11 +15,21 @@ class Web < Roda
     end
 
     r.post '' do
-      filename, filetype = r.params['file'][:filename].split('.')
-      file = r.params['file'][:tempfile]
+      files = {}
+      name, type = r.params['file'][:filename].split('.')
+      files[:root] = { name: name, type: type, file: r.params['file'][:tempfile] }
+
+      referencesFiles = r.params['referencesFiles']
+      references = []
+      referencesFiles.each do |file|
+        name, type = file[:filename].split('.')
+        references.push({ name: name, type: type, file: file[:tempfile] })
+      end
+      files.merge!(references: references)
+
       credential_layout_file = r.params['credentialLayoutFile']&.fetch(:tempfile)
       form_layout_file = r.params['formLayoutFile']&.fetch(:tempfile)
-      zip_filename = Services::InputFileService.new.call(filename, filetype, file, credential_layout_file, form_layout_file)
+      zip_filename = Services::InputFileService.new.call(files, credential_layout_file, form_layout_file)
 
       zip_filename
     end
