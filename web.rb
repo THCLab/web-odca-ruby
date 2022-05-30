@@ -19,7 +19,7 @@ class Web < Roda
       name, type = r.params['file'][:filename].split('.')
       files[:root] = { name: name, type: type, file: r.params['file'][:tempfile] }
 
-      referencesFiles = r.params['referencesFiles']
+      referencesFiles = r.params['referencesFiles'] || []
       references = []
       referencesFiles.each do |file|
         name, type = file[:filename].split('.')
