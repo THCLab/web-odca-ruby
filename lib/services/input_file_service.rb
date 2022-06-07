@@ -10,23 +10,24 @@ require 'zip_file_generator'
 module Services
   class InputFileService
     def call(files, credential_layout_file, form_layout_file)
-      `mv #{files[:root][:file].path} /tmp/#{files[:root][:name]}.#{files[:root][:type]}`
-      cmd = "./parser.bin parse oca -p /tmp/#{files[:root][:name]}.#{files[:root][:type]} --zip"
+      `mv #{files[:root][:file].path} \"/tmp/#{files[:root][:name]}.#{files[:root][:type]}\"`
+      cmd = "./parser.bin parse oca -p \"/tmp/#{files[:root][:name]}.#{files[:root][:type]}\" --zip"
       files[:references].each do |reference|
         `mv #{reference[:file].path} /tmp/#{reference[:name]}.#{reference[:type]}`
-        cmd += " -p /tmp/#{reference[:name]}.#{reference[:type]}"
+        cmd += " -p \"/tmp/#{reference[:name]}.#{reference[:type]}\""
       end
       if !credential_layout_file.nil?
-        cmd += " --credential-layout #{credential_layout_file.path}"
+        cmd += " --credential-layout \"#{credential_layout_file.path}\""
       end
       if !form_layout_file.nil?
-        cmd += " --form-layout #{form_layout_file.path}"
+        cmd += " --form-layout \"#{form_layout_file.path}\""
       end
-      `#{cmd}`
+      result_msg = `#{cmd}`
+      return { success: false, error: result_msg } if result_msg.start_with?('Error')
       uuid = SecureRandom.hex(16)
-      `mv ./#{files[:root][:name]}.zip ./public/#{uuid}.zip`
+      `mv \"./#{files[:root][:name]}.zip\" ./public/#{uuid}.zip`
 
-      "#{uuid}.zip"
+      { success: true, filename: "#{uuid}.zip" }
     end
 
     private def parse_file(file)

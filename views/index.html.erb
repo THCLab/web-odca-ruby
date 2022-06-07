@@ -91,12 +91,17 @@
             alert('OCA file is required!');
           } else {
             const xhr = new XMLHttpRequest();
+            xhr.responseType = 'json'
             xhr.open('POST', '/', true);
             xhr.onload = () => {
               if (xhr.status === 200) {
-                const fileUrl = xhr.responseURL + xhr.responseText
-                window.history.pushState("", "", fileUrl);
-                window.location.replace(fileUrl);
+                if (xhr.response.success) {
+                  const fileUrl = xhr.responseURL + xhr.response.filename
+                  window.history.pushState("", "", fileUrl);
+                  window.location.replace(fileUrl);
+                } else {
+                  console.error(xhr.response.error)
+                }
               }
             };
 

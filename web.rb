@@ -6,6 +6,7 @@ class Web < Roda
   plugin :render
   plugin :public
   plugin :cors
+  plugin :json
 
   route do |r|
     r.public
