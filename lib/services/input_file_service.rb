@@ -23,7 +23,13 @@ module Services
         cmd += " --form-layout \"#{form_layout_file.path}\""
       end
       result_msg = `#{cmd}`
-      return { success: false, error: result_msg } if result_msg.start_with?('Error')
+      if result_msg.start_with?('Error')
+        return { success: false, errors: [result_msg] }
+      elsif valid_json?(result_msg)
+        parsed_result = JSON.parse(result_msg)
+        errors = parsed_result["errors"]
+        return { success: false, errors: errors } unless errors.empty?
+      end
       uuid = SecureRandom.hex(16)
       `mv \"./#{files[:root][:name]}.zip\" ./public/#{uuid}.zip`
 
@@ -41,6 +47,13 @@ module Services
         xls = Roo::Excel.new(file)
         CSV.parse(xls.to_csv, col_sep: ',')
       end
+    end
+
+    private def valid_json?(json)
+      JSON.parse(json)
+      true
+    rescue JSON::ParserError => e
+      false
     end
   end
 end
