@@ -51,6 +51,8 @@
       <input type="file" id="chooseCredentialLayoutFile" accept=".yml,.yaml" />
       <label>Select Form Layout file</label>
       <input type="file" id="chooseFormLayoutFile" accept=".yml,.yaml" />
+      <label>Generate Data Entry file</label>
+      <input type="checkbox" id="withDataEntry" />
       <input type="submit" id="submit" />
       </div>
       <div class="column">
@@ -83,6 +85,12 @@
         .addEventListener("change", (e) => {
           const file = e.target.files[0];
           fd.append('formLayoutFile', file);
+        });
+      document.querySelector("#withDataEntry")
+        .addEventListener("change", (e) => {
+          console.log(e.target.checked);
+          const withDataEntry = e.target.checked;
+          fd.append('withDataEntry', withDataEntry);
         });
 
       document.querySelector("#submit")

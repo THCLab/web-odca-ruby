@@ -30,7 +30,19 @@ class Web < Roda
 
       credential_layout_file = r.params['credentialLayoutFile']&.fetch(:tempfile)
       form_layout_file = r.params['formLayoutFile']&.fetch(:tempfile)
-      zip_filename = Services::InputFileService.new.call(files, credential_layout_file, form_layout_file)
+
+      with_default_credential_layout = r.params['withDefaultCredentialLayout'] == "true"
+      with_default_form_layout = r.params['withDefaultFormLayout'] == "true"
+      with_data_entry = r.params['withDataEntry'] == "true"
+
+      zip_filename = Services::InputFileService.new.call(
+        files,
+        with_data_entry,
+        with_default_credential_layout,
+        credential_layout_file,
+        with_default_form_layout,
+        form_layout_file
+      )
 
       zip_filename
     end

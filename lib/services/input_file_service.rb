@@ -9,7 +9,14 @@ require 'zip_file_generator'
 
 module Services
   class InputFileService
-    def call(files, credential_layout_file, form_layout_file)
+    def call(
+      files,
+      with_data_entry,
+      with_default_credential_layout,
+      credential_layout_file,
+      with_default_form_layout,
+      form_layout_file
+    )
       `mv #{files[:root][:file].path} \"/tmp/#{files[:root][:name]}.#{files[:root][:type]}\"`
       cmd = "./parser.bin parse oca -p \"/tmp/#{files[:root][:name]}.#{files[:root][:type]}\" --zip"
       files[:references].each do |reference|
@@ -22,6 +29,17 @@ module Services
       if !form_layout_file.nil?
         cmd += " --form-layout \"#{form_layout_file.path}\""
       end
+
+      if with_default_credential_layout
+        cmd += " --default-credential-layout"
+      end
+      if with_default_form_layout
+        cmd += " --default-form-layout"
+      end
+
+      if with_data_entry
+        cmd += " --xls-data-entry"
+      end
       result_msg = `#{cmd}`
       if result_msg.start_with?('Error')
         return { success: false, errors: [result_msg] }
@@ -33,7 +51,13 @@ module Services
       uuid = SecureRandom.hex(16)
       `mv \"./#{files[:root][:name]}.zip\" ./public/#{uuid}.zip`
 
-      { success: true, filename: "#{uuid}.zip" }
+      result = { success: true, filename: "#{uuid}.zip" }
+      if with_data_entry
+        `mv \"./#{files[:root][:name]}-data_entry.xlsx\" ./public/#{uuid}-data_entry.xlsx`
+        result[:data_entry] = "#{uuid}-data_entry.xlsx"
+      end
+
+      result
     end
 
     private def parse_file(file)
